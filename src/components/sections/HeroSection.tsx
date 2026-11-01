@@ -1,118 +1,159 @@
+"use client";
+
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { AlertBanner } from "@/components/ui/AlertBanner";
-import { Badge } from "@/components/ui/Badge";
+import { FaceTransform } from "@/components/ui/FaceTransform";
 
 export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="section-layer relative min-h-screen flex flex-col overflow-hidden"
       aria-labelledby="hero-heading"
     >
-      {/* Background gradient radials */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full bg-indigo-950/20 blur-[120px]" />
-        <div className="absolute top-20 right-0 w-[400px] h-[400px] rounded-full bg-violet-950/15 blur-[100px]" />
-        <div className="absolute bottom-20 left-0 w-[350px] h-[350px] rounded-full bg-indigo-950/10 blur-[100px]" />
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(99,102,241,0.5) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(99,102,241,0.5) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
+      {/* ── Right-side atmospheric glow behind face */}
+      <div
+        aria-hidden="true"
+        className="absolute pointer-events-none"
+        style={{
+          right: 0, top: 0,
+          width: "60vw", height: "100%",
+          background: "radial-gradient(ellipse 55% 65% at 65% 40%, rgba(6,182,212,0.07) 0%, rgba(14,165,233,0.03) 50%, transparent 75%)",
+          zIndex: 1,
+        }}
+      />
+
+      {/* ── Main content grid */}
+      <div
+        className="relative flex-1 section-container flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16 pt-24 pb-10 md:pt-32 md:pb-14"
+        style={{ zIndex: 2 }}
+      >
+        {/* ── LEFT — Text */}
+        <div className="flex-1 min-w-0 max-w-[560px] text-center lg:text-left order-2 lg:order-1">
+
+          {/* Eyebrow */}
+          <div className="inline-flex items-center gap-2.5 mb-5"
+            style={{ fontFamily: "var(--font-mono)", fontSize: "0.68rem", fontWeight: 600,
+              textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--cyan-400)" }}>
+            <span style={{ width: 24, height: 1, background: "var(--cyan-500)", display: "inline-block" }} aria-hidden="true" />
+            AI Digital Memory Platform
+            <span style={{ width: 24, height: 1, background: "var(--cyan-500)", display: "inline-block" }} aria-hidden="true" />
+          </div>
+
+          {/* H1 */}
+          <h1 id="hero-heading" className="font-extrabold gradient-text mb-2"
+            style={{ fontSize: "clamp(3rem,7.5vw,5.5rem)", lineHeight: 1.04, letterSpacing: "-0.04em" }}>
+            Preserve.<br />Remember.
+          </h1>
+
+          <p className="font-light mb-7" style={{ fontSize: "clamp(1.3rem,2.8vw,1.85rem)", letterSpacing: "-0.01em", color: "var(--text-200)" }}>
+            Connect with memory.
+          </p>
+
+          <p style={{ fontSize: "clamp(0.9rem,1.3vw,1.05rem)", color: "var(--text-400)", lineHeight: 1.75, maxWidth: "46ch", marginBottom: "2.25rem" }}
+            className="mx-auto lg:mx-0">
+            An AI-powered digital memory and legacy platform designed to help
+            authorized families preserve meaningful memories and interact with
+            an evidence-grounded AI representation of a loved one.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-8">
+            <a
+              href="#features"
+              className="inline-flex items-center gap-2 font-semibold rounded-xl px-6 py-3 transition-all duration-200"
+              style={{
+                fontSize: "0.95rem",
+                background: "linear-gradient(135deg, #0ea5e9, #06b6d4)",
+                color: "#fff",
+                boxShadow: "0 0 24px rgba(6,182,212,0.35)",
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 0 40px rgba(6,182,212,0.55)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 0 24px rgba(6,182,212,0.35)"; }}
+            >
+              Explore Memora
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </a>
+            <a
+              href="#how-it-works"
+              className="inline-flex items-center gap-2 font-medium rounded-xl px-6 py-3 transition-all duration-200"
+              style={{
+                fontSize: "0.95rem",
+                color: "var(--text-400)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "var(--cyan-400)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(6,182,212,0.35)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "var(--text-400)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
+              }}
+            >
+              Discover How It Works
+            </a>
+          </div>
+
+          {/* Transparency note */}
+          <div
+            role="note"
+            className="inline-flex items-start gap-2.5 rounded-xl px-4 py-3 text-left"
+            style={{
+              background: "rgba(6,182,212,0.04)",
+              border: "1px solid rgba(6,182,212,0.10)",
+              maxWidth: "46ch",
+              fontSize: "0.8rem",
+              color: "var(--text-500)",
+              lineHeight: 1.6,
+            }}
+          >
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--cyan-700, #0e7490)",
+              flexShrink: 0, marginTop: 5, display: "inline-block" }} aria-hidden="true" />
+            Memora is an AI-generated representation based on authorised memories —
+            not the deceased person&apos;s consciousness. Full AI transparency is enforced at every interaction.
+          </div>
+        </div>
+
+        {/* ── RIGHT — Face Transform */}
+        <div className="flex-shrink-0 flex items-center justify-center order-1 lg:order-2 mt-4 lg:mt-0"
+          style={{ paddingBottom: "2rem" }}>
+          <FaceTransform />
+        </div>
       </div>
 
-      <div className="section-container relative z-10 py-28 md:py-36 flex flex-col items-center text-center">
-
-        {/* Eyebrow badge */}
-        <div className="mb-6 flex items-center justify-center">
-          <Badge variant="indigo" size="md">
-            AI-Powered Digital Memory Platform
-          </Badge>
-        </div>
-
-        {/* Main heading */}
-        <h1
-          id="hero-heading"
-          className="font-extrabold tracking-tight leading-none mb-6"
-          style={{ fontSize: "clamp(2.8rem, 8vw, 5.5rem)", letterSpacing: "-0.035em" }}
+      {/* ── Stats bar */}
+      <div className="relative section-container pb-10 md:pb-16" style={{ zIndex: 2 }}>
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 overflow-hidden rounded-2xl"
+          style={{ border: "1px solid rgba(6,182,212,0.10)", background: "rgba(4,10,22,0.60)", backdropFilter: "blur(12px)" }}
         >
-          <span className="gradient-text">Preserve.</span>{" "}
-          <span className="gradient-text">Remember.</span>
-          <br />
-          <span className="text-slate-300 font-light" style={{ fontSize: "0.72em" }}>
-            Connect with memory.
-          </span>
-        </h1>
-
-        {/* Subheading */}
-        <p className="text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed"
-          style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)" }}>
-          Memora is a privacy-conscious, ethical platform that helps verified
-          family members preserve and interact with an{" "}
-          <strong className="text-slate-300 font-semibold">AI-generated representation</strong>{" "}
-          of a deceased loved one — built from authenticated personal materials
-          and archival records.
-        </p>
-
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 mb-14">
-          <Button as="a" href="#how-it-works" variant="primary" size="lg">
-            How It Works
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </Button>
-          <Button as="a" href="#features" variant="secondary" size="lg">
-            Explore Features
-          </Button>
-        </div>
-
-        {/* Ethics notice */}
-        <div className="w-full max-w-2xl mx-auto">
-          <AlertBanner
-            variant="info"
-            title="Foundational Ethical Premise"
-          >
-            Memora does <strong className="text-slate-200">not</strong> bring a deceased
-            person back to life, recreate consciousness, simulate sentience, or establish
-            communication with the afterlife. It provides an AI-generated representation
-            based on available, authorized information — with transparent AI identity
-            disclosure at every level of interaction.
-          </AlertBanner>
-        </div>
-
-        {/* Stat row */}
-        <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-px w-full max-w-3xl mx-auto rounded-xl overflow-hidden border border-white/[0.06] bg-white/[0.03]">
           {[
-            { label: "Verification Stages", value: "7" },
-            { label: "Evidence Tiers", value: "3" },
-            { label: "Memory Sources", value: "Multi-modal" },
-            { label: "AI Transparency", value: "Full" },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-col items-center justify-center py-5 px-4 bg-[#07090e] border border-white/[0.05]"
-            >
-              <span className="font-extrabold text-xl md:text-2xl text-slate-100 mb-0.5 tracking-tight">
-                {stat.value}
+            { v: "7",     l: "Verification Stages" },
+            { v: "3",     l: "Evidence Tiers" },
+            { v: "Multi", l: "Memory Source Types" },
+            { v: "100%",  l: "AI Transparency" },
+          ].map((s, i) => (
+            <div key={s.l}
+              className="flex flex-col items-center justify-center py-5 px-4"
+              style={{ borderRight: i < 3 ? "1px solid rgba(6,182,212,0.08)" : "none" }}>
+              <span className="font-extrabold cyan-text mb-1" style={{ fontSize: "clamp(1.5rem,3vw,2.1rem)", letterSpacing: "-0.03em" }}>
+                {s.v}
               </span>
-              <span className="text-xs text-slate-500 font-mono text-center leading-tight">
-                {stat.label}
+              <span style={{ fontSize: "0.7rem", color: "var(--text-500)", fontFamily: "var(--font-mono)", textAlign: "center", lineHeight: 1.3 }}>
+                {s.l}
               </span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Scroll hint */}
+      {/* ── Scroll cue */}
       <div
         aria-hidden="true"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-600 flex flex-col items-center gap-1 animate-bounce"
+        className="absolute bottom-5 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce"
+        style={{ zIndex: 2, color: "var(--text-600)", fontSize: "0.6rem", fontFamily: "var(--font-mono)", letterSpacing: "0.2em", textTransform: "uppercase" }}
       >
-        <span className="text-xs font-mono tracking-widest uppercase">Scroll</span>
+        <span>Scroll</span>
         <ChevronDown className="w-4 h-4" />
       </div>
     </section>

@@ -1,53 +1,66 @@
+"use client";
+
 import { ExternalLink, Shield } from "lucide-react";
-import { FOOTER_COLUMNS, STAGE_STATUS } from "@/lib/constants";
+import { FOOTER_COLUMNS } from "@/lib/constants";
 
 export function Footer() {
-  const year = new Date().getFullYear();
-
+  const year = 2026;
   return (
     <footer
-      className="border-t border-white/[0.06] bg-[#07090e]"
+      className="section-layer"
+      style={{ borderTop: "1px solid rgba(6,182,212,0.09)", background: "rgba(2,4,8,0.85)", backdropFilter: "blur(20px)" }}
       role="contentinfo"
       aria-label="Site footer"
     >
-      {/* Main footer grid */}
-      <div className="section-container py-14 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
+      {/* Top glow edge */}
+      <div aria-hidden="true" style={{
+        position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+        width: "70%", height: 1,
+        background: "linear-gradient(90deg, transparent, rgba(6,182,212,0.4), transparent)",
+        pointerEvents: "none",
+      }} />
 
-          {/* Brand column */}
-          <div className="md:col-span-1">
+      <div className="section-container py-14 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8 mb-12">
+
+          {/* Brand */}
+          <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <div
-                aria-hidden="true"
-                className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-900/40"
-              >
-                <span className="text-white font-black text-sm select-none">M</span>
-              </div>
-              <span className="text-white font-extrabold text-lg tracking-tight">MEMORA</span>
+              <div style={{
+                width: 32, height: 32, borderRadius: 10, display: "flex",
+                alignItems: "center", justifyContent: "center",
+                fontWeight: 900, fontSize: "0.85rem", color: "#fff",
+                background: "linear-gradient(135deg, #0ea5e9, #06b6d4, #22d3ee)",
+                boxShadow: "0 0 12px rgba(6,182,212,0.35)",
+              }} aria-hidden="true">M</div>
+              <span style={{ fontWeight: 800, fontSize: "1.1rem", letterSpacing: "-0.02em", color: "var(--text-100)" }}>MEMORA</span>
             </div>
-            <p className="text-slate-500 text-sm leading-relaxed mb-5">
+            <p style={{ fontSize: "0.85rem", color: "var(--text-600)", lineHeight: 1.7, marginBottom: "1.25rem" }}>
               An ethical, privacy-conscious AI platform for digital memory and legacy preservation.
             </p>
-            {/* Stage badge */}
-            <div className="inline-flex items-center gap-2 font-mono text-xs text-slate-500 bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-500 flex-shrink-0" aria-hidden="true" />
-              <span>{STAGE_STATUS.current}</span>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem",
+              fontFamily: "var(--font-mono)", fontSize: "0.68rem", color: "var(--text-600)",
+              background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)",
+              borderRadius: 10, padding: "0.4rem 0.8rem" }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(6,182,212,0.6)",
+                boxShadow: "0 0 6px rgba(6,182,212,0.5)" }} aria-hidden="true" />
+              Stage 1 — Foundation
             </div>
           </div>
 
-          {/* Link columns */}
           {FOOTER_COLUMNS.map((col) => (
             <div key={col.heading}>
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-slate-500 mb-4">
+              <h3 style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", fontWeight: 700,
+                textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--text-600)", marginBottom: "1rem" }}>
                 {col.heading}
               </h3>
               <ul className="flex flex-col gap-2.5" role="list">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-slate-400 hover:text-slate-200 transition-colors duration-150"
-                    >
+                    <a href={link.href} style={{ fontSize: "0.875rem", color: "var(--text-600)",
+                      transition: "color 0.15s" }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--cyan-400)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-600)"; }}>
                       {link.label}
                     </a>
                   </li>
@@ -56,26 +69,23 @@ export function Footer() {
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/[0.05]">
-        <div className="section-container py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-slate-600 text-center sm:text-left">
+        <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(6,182,212,0.12), transparent)", marginBottom: "1.5rem" }} />
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p style={{ fontSize: "0.78rem", color: "var(--text-600)" }}>
             © {year} Memora. Research demonstration platform. Not a production service.
           </p>
           <div className="flex items-center gap-5">
-            <div className="flex items-center gap-1.5 text-xs text-slate-600">
+            <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.78rem", color: "var(--text-600)" }}>
               <Shield className="w-3.5 h-3.5" aria-hidden="true" />
               <span>AI Transparency Enabled</span>
             </div>
-            <a
-              href="https://github.com/MohamedNaseem-M/memora"
-              target="_blank"
-              rel="noopener noreferrer"
+            <a href="https://github.com/MohamedNaseem-M/memora" target="_blank" rel="noopener noreferrer"
               aria-label="Memora on GitHub"
-              className="text-slate-600 hover:text-slate-400 transition-colors"
-            >
+              style={{ color: "var(--text-600)", transition: "color 0.15s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--cyan-400)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-600)"; }}>
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
             </a>
           </div>

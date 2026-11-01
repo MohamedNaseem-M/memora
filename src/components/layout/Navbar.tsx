@@ -2,35 +2,30 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/Button";
 import { NAV_ITEMS } from "@/lib/constants";
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]  = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
+  const scrollTo = (href: string) => {
     setMenuOpen(false);
     const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <header
       className={`
-        fixed top-0 left-0 right-0 z-50
-        transition-all duration-300
+        fixed top-0 inset-x-0 z-50 transition-all duration-400
         ${scrolled
-          ? "bg-[#07090e]/90 backdrop-blur-xl border-b border-white/[0.06] shadow-lg shadow-black/20"
+          ? "bg-[#020408]/90 backdrop-blur-2xl border-b border-cyan-900/20 shadow-[0_1px_30px_rgba(6,182,212,0.08)]"
           : "bg-transparent border-b border-transparent"
         }
       `}
@@ -39,34 +34,31 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16 md:h-[70px]">
 
           {/* Brand */}
-          <a
-            href="#hero"
-            onClick={(e) => { e.preventDefault(); handleNavClick("#hero"); }}
-            className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg"
+          <button
+            onClick={() => scrollTo("#hero")}
+            className="flex items-center gap-2.5 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-lg"
             aria-label="Memora — Home"
           >
-            {/* Logo mark */}
             <div
               aria-hidden="true"
-              className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-900/40 group-hover:shadow-indigo-700/50 transition-shadow duration-200"
+              className="w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm text-white transition-all duration-200 group-hover:shadow-[0_0_16px_rgba(6,182,212,0.6)]"
+              style={{ background: "linear-gradient(135deg, #0ea5e9, #06b6d4, #22d3ee)", boxShadow: "0 0 12px rgba(6,182,212,0.35)" }}
             >
-              <span className="text-white font-black text-sm tracking-tight select-none">M</span>
+              M
             </div>
-            <span className="text-white font-extrabold text-lg tracking-tight leading-none">
-              MEMORA
-            </span>
-            <span className="hidden sm:inline-flex items-center font-mono text-[10px] font-semibold uppercase tracking-widest text-indigo-300 bg-indigo-950/60 border border-indigo-700/40 px-2 py-0.5 rounded-full ml-0.5">
+            <span className="text-white font-extrabold text-lg tracking-tight">MEMORA</span>
+            <span className="hidden sm:inline font-mono text-[9px] font-semibold uppercase tracking-[0.18em] text-cyan-500 bg-cyan-950/60 border border-cyan-700/40 px-2 py-0.5 rounded-full">
               Stage 1
             </span>
-          </a>
+          </button>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+          <nav className="hidden md:flex items-center gap-0.5" aria-label="Main navigation">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.href}
-                onClick={() => handleNavClick(item.href)}
-                className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-slate-100 rounded-lg hover:bg-white/5 transition-all duration-150 cursor-pointer"
+                onClick={() => scrollTo(item.href)}
+                className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-cyan-300 rounded-lg hover:bg-cyan-950/30 transition-all duration-150 cursor-pointer"
               >
                 {item.label}
               </button>
@@ -75,36 +67,30 @@ export function Navbar() {
 
           {/* CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <Button
-              as="a"
-              href="#how-it-works"
-              onClick={(e: React.MouseEvent) => {
-                e.preventDefault();
-                handleNavClick("#how-it-works");
-              }}
-              variant="outline"
-              size="sm"
+            <button
+              onClick={() => scrollTo("#how-it-works")}
+              className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-cyan-300 border border-white/[0.08] hover:border-cyan-700/40 rounded-xl transition-all duration-200"
             >
               Learn More
-            </Button>
-            <Button
-              as="a"
-              href="#features"
-              onClick={(e: React.MouseEvent) => {
-                e.preventDefault();
-                handleNavClick("#features");
+            </button>
+            <button
+              onClick={() => scrollTo("#features")}
+              className="px-4 py-2 text-sm font-semibold text-white rounded-xl transition-all duration-200"
+              style={{
+                background: "linear-gradient(135deg, #0ea5e9, #06b6d4)",
+                boxShadow: "0 0 18px rgba(6,182,212,0.35)",
               }}
-              variant="primary"
-              size="sm"
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 0 28px rgba(6,182,212,0.55)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 0 18px rgba(6,182,212,0.35)"; }}
             >
               Explore Platform
-            </Button>
+            </button>
           </div>
 
-          {/* Mobile menu toggle */}
+          {/* Mobile toggle */}
           <button
             id="mobile-menu-toggle"
-            className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+            className="md:hidden p-2 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/30 transition-colors"
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -117,45 +103,24 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div
-          id="mobile-menu"
-          className="md:hidden bg-[#07090e]/95 backdrop-blur-xl border-t border-white/[0.06]"
-        >
+        <div id="mobile-menu" className="md:hidden bg-[#020408]/96 backdrop-blur-2xl border-t border-cyan-900/20">
           <nav className="section-container py-4 flex flex-col gap-1" aria-label="Mobile navigation">
             {NAV_ITEMS.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => handleNavClick(item.href)}
-                className="text-left px-4 py-3 text-sm font-medium text-slate-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
-              >
+              <button key={item.href} onClick={() => scrollTo(item.href)}
+                className="text-left px-4 py-3 text-sm font-medium text-slate-300 hover:text-cyan-300 rounded-lg hover:bg-cyan-950/30 transition-colors cursor-pointer">
                 {item.label}
               </button>
             ))}
-            <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-white/[0.06]">
-              <Button
-                as="a"
-                href="#how-it-works"
-                onClick={(e: React.MouseEvent) => {
-                  e.preventDefault();
-                  handleNavClick("#how-it-works");
-                }}
-                variant="secondary"
-                fullWidth
-              >
+            <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-cyan-900/20">
+              <button onClick={() => scrollTo("#how-it-works")}
+                className="w-full py-3 text-sm font-medium text-slate-300 border border-white/[0.08] rounded-xl hover:border-cyan-700/40 hover:text-cyan-300 transition-all">
                 Learn More
-              </Button>
-              <Button
-                as="a"
-                href="#features"
-                onClick={(e: React.MouseEvent) => {
-                  e.preventDefault();
-                  handleNavClick("#features");
-                }}
-                variant="primary"
-                fullWidth
-              >
+              </button>
+              <button onClick={() => scrollTo("#features")}
+                className="w-full py-3 text-sm font-semibold text-white rounded-xl"
+                style={{ background: "linear-gradient(135deg, #0ea5e9, #06b6d4)", boxShadow: "0 0 18px rgba(6,182,212,0.3)" }}>
                 Explore Platform
-              </Button>
+              </button>
             </div>
           </nav>
         </div>

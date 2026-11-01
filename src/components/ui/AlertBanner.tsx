@@ -20,9 +20,9 @@ const variantConfig: Record<
     Icon: AlertTriangle,
   },
   info: {
-    bg: "bg-indigo-950/30",
-    border: "border-indigo-700/35",
-    iconColor: "text-indigo-400",
+    bg: "bg-cyan-950/25",
+    border: "border-cyan-700/35",
+    iconColor: "text-cyan-400",
     Icon: Info,
   },
   success: {

@@ -1,132 +1,80 @@
-import { SectionLabel } from "@/components/ui/SectionLabel";
-import type { HowItWorksStep } from "@/types";
+import { SectionReveal } from "@/components/ui/SectionReveal";
 
-const STEPS: HowItWorksStep[] = [
-  {
-    number: "01",
-    phase: "Account & Identity",
-    title: "Create Account & Submit Identity",
-    description:
-      "The requester creates a secure account and completes the first stage of identity verification, establishing who is requesting access to the platform.",
-  },
-  {
-    number: "02",
-    phase: "Seven-Stage Verification",
-    title: "Verification & Eligibility Audit",
-    description:
-      "A structured 7-stage pipeline verifies the requester's identity, the deceased individual's identity, death documentation, family relationship, and applicable adult eligibility.",
-  },
-  {
-    number: "03",
-    phase: "Memorial Profile Creation",
-    title: "Create Memorial Profile",
-    description:
-      "Authorized users create a memorial profile anchored by a mandatory reference photograph, with optional voice recordings, videos, messages, and family memories.",
-  },
-  {
-    number: "04",
-    phase: "Ingestion & Classification",
-    title: "Memory Ingestion & Provenance Recording",
-    description:
-      "Uploaded materials are processed, categorized into evidence tiers (A, B, C), and stored in a private, isolated memory repository with provenance records.",
-  },
-  {
-    number: "05",
-    phase: "AI Memory Engine",
-    title: "RAG Retrieval & Evidence Validation",
-    description:
-      "When a query is submitted, the RAG engine retrieves relevant memory records. An output validation step checks whether the response is grounded in the retrieved evidence.",
-  },
-  {
-    number: "06",
-    phase: "Grounded Response",
-    title: "Evidence-Attributed Response Delivery",
-    description:
-      "Responses are delivered with transparent source attribution (Level A, B, or C). If evidence is insufficient or conflicting, the system communicates this clearly rather than generating unsupported content.",
-  },
+const STEPS = [
+  { n: "01", phase: "Onboarding",  title: "Create Account & Submit Identity",         body: "The requester creates a secure account and completes the first stage of identity verification, establishing who is requesting access to the platform." },
+  { n: "02", phase: "Verification",title: "Seven-Stage Eligibility Audit",            body: "A structured pipeline verifies requester identity, deceased identity, death documentation, family relationship, and adult eligibility before any access is granted." },
+  { n: "03", phase: "Ingestion",   title: "Create Memorial Profile",                  body: "Authorised users create a profile anchored by a mandatory reference photograph, with optional voice recordings, videos, messages, and family memories." },
+  { n: "04", phase: "Processing",  title: "Memory Ingestion & Tier Classification",   body: "Uploaded materials are processed, categorised into evidence tiers (A, B, C), and stored in a private, isolated memory repository with full provenance records." },
+  { n: "05", phase: "AI Engine",   title: "RAG Retrieval & Evidence Validation",      body: "When a query is submitted, the RAG engine retrieves relevant memory records. An output validation step checks whether the response is grounded in retrieved evidence." },
+  { n: "06", phase: "Response",    title: "Evidence-Attributed Response Delivery",    body: "Responses are delivered with transparent source attribution (Level A, B, or C). Insufficient or conflicting evidence is communicated explicitly — never silently substituted." },
 ];
 
 export function HowItWorksSection() {
   return (
     <section
       id="how-it-works"
-      className="section-padding border-t border-white/[0.05]"
+      className="section-layer section-padding"
       aria-labelledby="how-it-works-heading"
     >
       <div className="section-container">
-        <div className="max-w-2xl mb-12">
-          <SectionLabel>Platform Workflow</SectionLabel>
-          <h2
-            id="how-it-works-heading"
-            className="text-3xl md:text-4xl font-extrabold text-slate-100 mb-4"
-          >
-            How Memora works
+
+        <SectionReveal className="max-w-3xl mx-auto text-center mb-16">
+          <div className="eyebrow justify-center mb-5">Platform Workflow</div>
+          <h2 id="how-it-works-heading" className="font-extrabold mb-5"
+            style={{ fontSize: "clamp(2rem,4.5vw,3.25rem)", lineHeight: 1.12 }}>
+            How Memora works —<br />
+            <span className="cyan-text">step by verified step</span>
           </h2>
-          <p className="text-slate-400 leading-relaxed">
-            Every interaction with Memora follows a verified, structured sequence
-            — from initial account creation to evidence-grounded conversational
-            interaction. No step is bypassed.
+          <p style={{ fontSize: "clamp(0.95rem,1.4vw,1.1rem)", color: "var(--text-400)", lineHeight: 1.8, maxWidth: "56ch", margin: "0 auto" }}>
+            Every interaction follows a verified, structured sequence. No step is bypassed.
+            No access is granted without passing the full eligibility pipeline.
           </p>
-        </div>
+        </SectionReveal>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical connector line — desktop */}
-          <div
-            aria-hidden="true"
-            className="hidden md:block absolute left-[39px] top-10 bottom-10 w-px bg-gradient-to-b from-indigo-700/40 via-violet-700/30 to-transparent"
-          />
+        {/* Steps — single column with connecting line on left */}
+        <div className="relative max-w-2xl mx-auto">
+          {/* Vertical connector line */}
+          <div aria-hidden="true"
+            className="absolute top-6 bottom-6 pointer-events-none hidden md:block"
+            style={{ left: "1.6rem", width: 1,
+              background: "linear-gradient(to bottom, transparent, rgba(6,182,212,0.3) 10%, rgba(6,182,212,0.3) 90%, transparent)" }} />
 
-          <ol className="flex flex-col gap-4" aria-label="How Memora works steps">
+          <div className="flex flex-col gap-5">
             {STEPS.map((step, i) => (
-              <li
-                key={step.number}
-                className="relative flex gap-5 md:gap-6 items-start group"
-              >
-                {/* Step number */}
-                <div
-                  aria-label={`Step ${i + 1}`}
-                  className="
-                    flex-shrink-0 w-[78px] h-[78px]
-                    md:w-[78px] md:h-[78px]
-                    w-[64px] h-[64px]
-                    hidden md:flex
-                    items-center justify-center
-                    rounded-xl border border-indigo-800/40 bg-indigo-950/50
-                    font-mono font-bold text-indigo-400 text-sm
-                    group-hover:border-indigo-600/60 group-hover:bg-indigo-950/70
-                    transition-all duration-200
-                    z-10 relative
-                  "
-                >
-                  {step.number}
-                </div>
-
-                {/* Mobile number */}
-                <div
-                  aria-hidden="true"
-                  className="md:hidden flex-shrink-0 w-8 h-8 rounded-lg bg-indigo-950/60 border border-indigo-800/40 flex items-center justify-center font-mono text-xs font-bold text-indigo-400 mt-1"
-                >
-                  {step.number}
-                </div>
-
-                {/* Content card */}
-                <div className="flex-1 glass-card p-5 md:p-6 group-hover:border-indigo-700/30">
-                  <div className="flex items-start gap-3 flex-wrap mb-2">
-                    <h3 className="font-semibold text-slate-100 text-base leading-snug">
+              <SectionReveal key={step.n} delay={i * 55}>
+                <div className="step-card p-6 flex gap-5 items-start">
+                  {/* Number node */}
+                  <div className="flex-shrink-0 relative">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center font-mono font-black text-sm"
+                      style={{
+                        background: "rgba(6,182,212,0.08)",
+                        border: "1px solid rgba(6,182,212,0.35)",
+                        color: "var(--cyan-400)",
+                        boxShadow: "0 0 14px rgba(6,182,212,0.18)",
+                        position: "relative", zIndex: 1,
+                      }}>
+                      {step.n}
+                    </div>
+                  </div>
+                  {/* Content */}
+                  <div className="flex-1 min-w-0 pt-1">
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", fontWeight: 600,
+                      textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--cyan-500)",
+                      marginBottom: "0.3rem" }}>
+                      {step.phase}
+                    </div>
+                    <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-100)",
+                      lineHeight: 1.25, marginBottom: "0.5rem" }}>
                       {step.title}
                     </h3>
-                    <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-950/60 border border-indigo-700/30 px-2 py-0.5 rounded-full mt-0.5 flex-shrink-0">
-                      {step.phase}
-                    </span>
+                    <p style={{ fontSize: "0.875rem", color: "var(--text-400)", lineHeight: 1.75 }}>
+                      {step.body}
+                    </p>
                   </div>
-                  <p className="text-sm text-slate-400 leading-relaxed">
-                    {step.description}
-                  </p>
                 </div>
-              </li>
+              </SectionReveal>
             ))}
-          </ol>
+          </div>
         </div>
       </div>
     </section>

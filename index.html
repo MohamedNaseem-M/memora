@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEMORA — Client Project Introduction & Presentation</title>
+  <meta name="description" content="AI-Powered Digital Memory & Legacy Interaction Platform — Executive Client Presentation and Research Architecture Alignment">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #07090e;
+      --bg-secondary: #0d121d;
+      --bg-card: rgba(18, 24, 38, 0.7);
+      --bg-card-hover: rgba(28, 38, 60, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.3);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-indigo: #6366f1;
+      --accent-violet: #8b5cf6;
+      --accent-teal: #14b8a6;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-cyan: #06b6d4;
+      --gradient-accent: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header.presentation-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: rgba(7, 9, 14, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 1000;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--gradient-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .brand-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #fff;
+    }
+
+    .brand-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .slide-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--accent-indigo);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .nav-btn.primary {
+      background: var(--accent-indigo);
+      border-color: var(--accent-indigo);
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+
+    .nav-btn.primary:hover {
+      background: #4f46e5;
+    }
+
+    main.presentation-deck {
+      margin-top: 70px;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      min-height: calc(100vh - 70px);
+      padding: 3rem 4rem 5rem 4rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent-indigo);
+      margin-bottom: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-indigo);
+      box-shadow: 0 0 10px var(--accent-indigo);
+    }
+
+    .slide-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.85rem;
+      color: #fff;
+    }
+
+    .slide-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 880px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.5rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: transparent;
+      transition: background 0.25s ease;
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .feature-card:hover::before {
+      background: var(--gradient-accent);
+    }
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--accent-indigo);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .alert-banner {
+      background: rgba(244, 63, 94, 0.08);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .alert-banner.info {
+      background: rgba(99, 102, 241, 0.08);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .alert-banner.warning {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .alert-banner.success {
+      background: rgba(20, 184, 166, 0.08);
+      border-color: rgba(20, 184, 166, 0.3);
+    }
+
+    .alert-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .alert-content h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .alert-content p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .process-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+
+    .process-item {
+      display: grid;
+      grid-template-columns: 60px 1.2fr 2fr;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      gap: 1.25rem;
+      transition: all 0.2s ease;
+    }
+
+    .process-item:hover {
+      border-color: var(--accent-indigo);
+      background: var(--bg-card-hover);
+    }
+
+    .process-num {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent-indigo);
+      background: rgba(99, 102, 241, 0.1);
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .process-title-group h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.15rem;
+    }
+
+    .process-title-group p {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .process-detail {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .tier-box {
+      border-radius: 12px;
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      position: relative;
+    }
+
+    .tier-box.level-a {
+      border-left: 4px solid var(--accent-teal);
+    }
+
+    .tier-box.level-b {
+      border-left: 4px solid var(--accent-amber);
+    }
+
+    .tier-box.level-c {
+      border-left: 4px solid var(--accent-rose);
+    }
+
+    .tier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .tier-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .tier-tag.a { background: rgba(20, 184, 166, 0.15); color: #5eead4; }
+    .tier-tag.b { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
+    .tier-tag.c { background: rgba(244, 63, 94, 0.15); color: #fda4af; }
+
+    .tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.25rem;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tech-table th, .tech-table td {
+      padding: 0.9rem 1.2rem;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .tech-table th {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tech-table tr:not(:last-child) td {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .tech-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .tech-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(99, 102, 241, 0.12);
+      color: #c7d2fe;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    footer.presentation-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: rgba(7, 9, 14, 0.9);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 1000;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .quick-jump-pills {
+      display: flex;
+      gap: 0.35rem;
+      overflow-x: auto;
+      max-width: 60%;
+      padding: 0.2rem 0;
+    }
+
+    .jump-pill {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .jump-pill:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .jump-pill.active {
+      color: #fff;
+      background: rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .hero-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 3.5rem;
+    }
+
+    .hero-title {
+      font-size: 3.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      max-width: 780px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 950px;
+      margin-top: 2rem;
+      text-align: left;
+    }
+
+    .meta-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    .meta-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-indigo);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35rem;
+    }
+
+    .meta-val {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(1, 1fr); }
+      .process-item { grid-template-columns: 50px 1fr; }
+      .process-detail { grid-column: span 2; }
+      .hero-title { font-size: 2.8rem; }
+      .slide { padding: 2rem 1.5rem 5rem 1.5rem; }
+    }
+
+    @media (max-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .hero-meta-grid { grid-template-columns: 1fr; }
+      .slide-title { font-size: 1.85rem; }
+      .hero-title { font-size: 2.2rem; }
+      header.presentation-header { padding: 0 1rem; }
+      .quick-jump-pills { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="presentation-header">
+    <div class="brand-group">
+      <a href="#" class="brand-logo" onclick="goToSlide(0); return false;">
+        <div class="brand-icon">M</div>
+        <span class="brand-name">MEMORA</span>
+      </a>
+      <span class="brand-badge">Research Alignment Briefing</span>
+    </div>
+
+    <div class="nav-controls">
+      <div class="slide-indicator" id="slideIndicator">Slide 01 / 14</div>
+      <button class="nav-btn" id="prevBtn" onclick="prevSlide()" title="Previous Slide (←)">
+        <span>←</span> Previous
+      </button>
+      <button class="nav-btn primary" id="nextBtn" onclick="nextSlide()" title="Next Slide (→)">
+        Next <span>→</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Slide Presentation Deck -->
+  <main class="presentation-deck">
+
+    <!-- SLIDE 1: Title & Hero Cover -->
+    <section class="slide active" id="slide-0">
+      <div class="slide-wrapper hero-container">
+        <div class="section-eyebrow">Client Project Introduction & Research Architecture</div>
+        <h1 class="hero-title">MEMORA</h1>
+        <p class="hero-tagline">AI-Powered Digital Memory & Legacy Interaction Platform</p>
+        
+        <div class="alert-banner info" style="max-width: 880px; text-align: left;">
+          <div class="alert-icon">🛡️</div>
+          <div class="alert-content">
+            <h4>Fundamental Reality & Ethical Premise</h4>
+            <p>Memora does not bring a deceased person back to life, recreate human consciousness, simulate sentience, or establish communication with the afterlife. It provides an AI-generated representation based on available and authorized information, with transparent AI identity disclosure.</p>
+          </div>
+        </div>
+
+        <div class="hero-meta-grid">
+          <div class="meta-card">
+            <div class="meta-label">Category</div>
+            <div class="meta-val">Digital Memory & Legacy Preservation</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-label">Format</div>
+            <div class="meta-val">Responsive Web Application (Planned Demo)</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-label">Core Engine</div>
+            <div class="meta-val">RAG with Output Evidence Validation</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-label">Development Environment</div>
+            <div class="meta-val">Google Antigravity</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Project Identity & Clarification -->
+    <section class="slide" id="slide-1">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">01 // Project Identity</div>
+        <h2 class="slide-title">What Is Memora?</h2>
+        <p class="slide-subtitle">An ethical platform designed to help authorized family members preserve and interact with an AI representation of a deceased loved one using verified personal materials.</p>
+
+        <div class="grid-2">
+          <div class="feature-card">
+            <div class="card-icon">🏛️</div>
+            <h3 class="card-title">Memorial Representation Platform</h3>
+            <p class="card-desc">Authorized family members can construct a memorial profile centered on a <strong>mandatory reference photograph</strong>, supplemented by optional voice recordings, videos, messages, and documented family memories.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🔒</div>
+            <h3 class="card-title">Controlled & Private Architecture</h3>
+            <p class="card-desc">Designed to preserve personal history within a privacy-conscious, access-controlled repository where verification credentials remain strictly isolated from conversational memory sources.</p>
+          </div>
+        </div>
+
+        <div class="alert-banner warning" style="margin-top: 1.5rem;">
+          <div class="alert-icon">⚠️</div>
+          <div class="alert-content">
+            <h4>Critical Reality Clarification</h4>
+            <p><strong>Memora does not recreate consciousness.</strong> It provides an AI-generated interaction experience derived strictly from available and authorized materials. The platform transparently communicates this distinction at all times to prevent misunderstanding.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Problem Statement -->
+    <section class="slide" id="slide-2">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">02 // The Problem We Address</div>
+        <h2 class="slide-title">The Challenge of Preserving Personal Legacy</h2>
+        <p class="slide-subtitle">Addressing memory fragmentation, degradation, and privacy risks without making unsupported psychological or medical claims.</p>
+
+        <div class="grid-4">
+          <div class="feature-card">
+            <div class="card-icon">📂</div>
+            <h3 class="card-title">Scattered Materials</h3>
+            <p class="card-desc">Important family memories are scattered across photographs, home videos, voice recordings, chat logs, and physical documents.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">⏳</div>
+            <h3 class="card-title">Preservation Loss</h3>
+            <p class="card-desc">Over time, materials become difficult to preserve, access, and interpret as generational context and personal stories fade.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🖼️</div>
+            <h3 class="card-title">Static Memorials</h3>
+            <p class="card-desc">Existing digital memorials are often static archives that do not provide an integrated, evidence-grounded conversational experience.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🛡️</div>
+            <h3 class="card-title">Privacy & Control</h3>
+            <p class="card-desc">Families lack a dedicated, privacy-conscious, and controlled environment to preserve meaningful memories safely.</p>
+          </div>
+        </div>
+
+        <div class="alert-banner success" style="margin-top: 1.75rem;">
+          <div class="alert-icon">✨</div>
+          <div class="alert-content">
+            <h4>How Memora Proposes to Address These Challenges</h4>
+            <p>Memora combines a 7-stage verification framework with Retrieval-Augmented Generation (RAG) and evidence output validation to organize memories, record provenance, and generate grounded conversational responses.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: End-to-End User Journey -->
+    <section class="slide" id="slide-3">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">03 // Platform Workflow</div>
+        <h2 class="slide-title">How Memora Works (User Journey)</h2>
+        <p class="slide-subtitle">A verified sequence from initial account registration to evidence-grounded conversational interaction.</p>
+
+        <div class="process-timeline">
+          <div class="process-item">
+            <div class="process-num">01</div>
+            <div class="process-title-group">
+              <h4>1–2. Account & Identity</h4>
+              <p>Onboarding Phase</p>
+            </div>
+            <div class="process-detail">User creates an account and completes requester identity verification.</div>
+          </div>
+
+          <div class="process-item">
+            <div class="process-num">02</div>
+            <div class="process-title-group">
+              <h4>3–4. Verification & Audit</h4>
+              <p>Gating Pipeline</p>
+            </div>
+            <div class="process-detail">Submission of deceased-person information and supporting documents; platform verifies identity, death, relationship, and applicable eligibility.</div>
+          </div>
+
+          <div class="process-item">
+            <div class="process-num">03</div>
+            <div class="process-title-group">
+              <h4>5–6. Memorial Profile & Upload</h4>
+              <p>Ingestion Pipeline</p>
+            </div>
+            <div class="process-detail">Authorized users create a profile with a <strong>mandatory reference photo</strong>, uploading optional recordings, videos, messages, and memories.</div>
+          </div>
+
+          <div class="process-item">
+            <div class="process-num">04</div>
+            <div class="process-title-group">
+              <h4>7–8. Organization & Retrieval</h4>
+              <p>RAG Memory Store</p>
+            </div>
+            <div class="process-detail">System organizes available information, records provenance, and retrieves relevant records from authorized memories.</div>
+          </div>
+
+          <div class="process-item">
+            <div class="process-num">05</div>
+            <div class="process-title-group">
+              <h4>9–10. Validation & Interaction</h4>
+              <p>Attributed Delivery</p>
+            </div>
+            <div class="process-detail">AI generates responses with evidence and safety checks; authorized users interact through supported communication modes (text, voice, avatar).</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Main Features Overview -->
+    <section class="slide" id="slide-4">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">04 // Core Capabilities</div>
+        <h2 class="slide-title">Main Platform Features</h2>
+        <p class="slide-subtitle">Modular architecture balancing functional capability with privacy and authorization boundaries.</p>
+
+        <div class="grid-3">
+          <div class="feature-card">
+            <div class="card-icon">🔑</div>
+            <h3 class="card-title">A. Authentication & Account</h3>
+            <p class="card-desc">Secure registration, password-based login, session and access management, with OTP verification where supported.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🪪</div>
+            <h3 class="card-title">B. Identity & Verification</h3>
+            <p class="card-desc">7-stage verification of requester, deceased, death records, relationships, and adult eligibility, enforced at the resource level.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🖼️</div>
+            <h3 class="card-title">C. Memorial Profile Creation</h3>
+            <p class="card-desc">Mandatory reference photograph, biographical details, and optional uploads for voice, video, correspondence, and family stories.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🗄️</div>
+            <h3 class="card-title">D. Private Memory Storage</h3>
+            <p class="card-desc">Secure storage of media and stories, with strict separation between verification records and conversational memory archives.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🧠</div>
+            <h3 class="card-title">E. AI Memory Conversation</h3>
+            <p class="card-desc">RAG-based retrieval with evidence attribution, output validation checks, and clear communication when information is unavailable.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🎙️</div>
+            <h3 class="card-title">F–G. Voice & Avatar Experience</h3>
+            <p class="card-desc">Speech-to-text, text-to-speech with authorized voice representation, and reference-photo-based visual representation with lip synchronization.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Evidence & AI Transparency Model -->
+    <section class="slide" id="slide-5">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">05 // Evidence Architecture</div>
+        <h2 class="slide-title">Three-Tier Evidence Classification</h2>
+        <p class="slide-subtitle">How Memora categorizes information and surfaces evidence limitations rather than inventing memories.</p>
+
+        <div class="tier-box level-a">
+          <div class="tier-header">
+            <h3 style="color: #5eead4;">Level A — Direct Evidence (Primary Material)</h3>
+            <span class="tier-tag a">Direct Source</span>
+          </div>
+          <p class="card-desc">Original material created or recorded directly by the deceased person (e.g., audio recordings, handwritten journals, letters, text messages, videos).</p>
+        </div>
+
+        <div class="tier-box level-b">
+          <div class="tier-header">
+            <h3 style="color: #fcd34d;">Level B — Family Testimony (Attributed Account)</h3>
+            <span class="tier-tag b">Attributed Source</span>
+          </div>
+          <p class="card-desc">Memories, anecdotes, and descriptions provided by authorized family members, explicitly attributed to their source (e.g., <em>"According to a story shared by daughter Sarah..."</em>).</p>
+        </div>
+
+        <div class="tier-box level-c">
+          <div class="tier-header">
+            <h3 style="color: #fda4af;">Level C — AI Inference (AI-Generated Interpretation)</h3>
+            <span class="tier-tag c">Explicitly Labeled Inference</span>
+          </div>
+          <p class="card-desc">AI-generated interpretation that is <strong>explicitly identified as inference</strong>. It must <strong>never</strong> be presented as a verified personal memory or a direct statement from the deceased.</p>
+        </div>
+
+        <div class="alert-banner info" style="margin-top: 1.25rem;">
+          <div class="alert-icon">💡</div>
+          <div class="alert-content">
+            <h4>Grounding, Limits & Conflicting Evidence</h4>
+            <p>RAG retrieves relevant evidence and output validation checks whether responses are supported. <strong>Memora does not claim hallucinations are completely eliminated.</strong> When evidence is insufficient, the system communicates that limitation. Conflicting evidence is surfaced to users rather than silently resolved.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: Relationship-Aware Access & Ethical Boundaries -->
+    <section class="slide" id="slide-6">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">06 // Access Control & Boundaries</div>
+        <h2 class="slide-title">Relationship-Aware Access Control</h2>
+        <p class="slide-subtitle">Strict ethical rules enforced at the resource level for every applicable request.</p>
+
+        <div class="grid-2">
+          <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
+            <div class="card-icon" style="color: var(--accent-rose);">💍</div>
+            <h3 class="card-title">Verified Adult Legal Spouses Only</h3>
+            <p class="card-desc">Romantic or intimate interaction modes are <strong>restricted exclusively to verified adult legal spouses</strong> who have satisfied all identity, death, relationship, and adult eligibility checks.</p>
+          </div>
+
+          <div class="feature-card" style="border-left: 4px solid var(--accent-indigo);">
+            <div class="card-icon" style="color: var(--accent-indigo);">👨‍👩‍👧‍👦</div>
+            <h3 class="card-title">Family, Descendants & Friends Scope</h3>
+            <p class="card-desc">Descendants and family members interact through respectful guidance, life stories, and family anecdotes. Intimate/romantic interaction modes are strictly unavailable.</p>
+          </div>
+        </div>
+
+        <div class="alert-banner" style="margin-top: 1.5rem;">
+          <div class="alert-icon">🚫</div>
+          <div class="alert-content">
+            <h4>Explicit Exclusions & Continuous Protection</h4>
+            <p>Romantic/intimate interaction is <strong>not available</strong> to dating partners, boyfriends, girlfriends, lovers, friends, siblings, or other relationships. Authorization is enforced at the resource level on every request, and general AI safety and privacy rules remain active for all users.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: Technology Stack Blueprint -->
+    <section class="slide" id="slide-7">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">07 // Technical Architecture</div>
+        <h2 class="slide-title">Proposed Technology Stack</h2>
+        <p class="slide-subtitle">Proposed architectural candidate technologies based on research requirements. (None are claimed as already integrated or deployed).</p>
+
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Architecture Layer</th>
+              <th>Proposed Technology</th>
+              <th>Architectural Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Dev Environment</strong></td>
+              <td><span class="tech-badge">Google Antigravity</span></td>
+              <td>Development, prototyping, and validation environment</td>
+            </tr>
+            <tr>
+              <td><strong>Frontend Framework</strong></td>
+              <td><span class="tech-badge">Next.js, React, TypeScript</span></td>
+              <td>Proposed candidate for responsive, mobile-first web user interface</td>
+            </tr>
+            <tr>
+              <td><strong>UI Styling</strong></td>
+              <td><span class="tech-badge">Tailwind CSS</span></td>
+              <td>Proposed candidate design system for responsive component layout</td>
+            </tr>
+            <tr>
+              <td><strong>Backend Services</strong></td>
+              <td><span class="tech-badge">Python, FastAPI</span></td>
+              <td>Proposed candidate API runtime for RAG orchestration and access control</td>
+            </tr>
+            <tr>
+              <td><strong>Relational Database</strong></td>
+              <td><span class="tech-badge">PostgreSQL</span></td>
+              <td>Proposed candidate for user accounts, relationship metadata, and audit logs</td>
+            </tr>
+            <tr>
+              <td><strong>Vector Retrieval</strong></td>
+              <td><span class="tech-badge">pgvector / Candidate Vector Store</span></td>
+              <td>Proposed candidate for semantic memory embedding indexation</td>
+            </tr>
+            <tr>
+              <td><strong>Caching & Queues</strong></td>
+              <td><span class="tech-badge">Redis (if required)</span></td>
+              <td>Candidate for temporary caching and asynchronous processing queues</td>
+            </tr>
+            <tr>
+              <td><strong>Private File Storage</strong></td>
+              <td><span class="tech-badge">Private Object Storage Service</span></td>
+              <td>Proposed candidate for isolated document and media storage</td>
+            </tr>
+            <tr>
+              <td><strong>AI Retrieval & Model</strong></td>
+              <td><span class="tech-badge">RAG Architecture + Compatible LLM API</span></td>
+              <td>Candidate framework for contextual retrieval and output validation</td>
+            </tr>
+            <tr>
+              <td><strong>Voice & Video Stream</strong></td>
+              <td><span class="tech-badge">STT / TTS / WebRTC Services</span></td>
+              <td>Candidate services for speech recognition, voice synthesis, and real-time avatar</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Project Development Stages (Roadmap) -->
+    <section class="slide" id="slide-8">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">08 // Execution Strategy</div>
+        <h2 class="slide-title">11 Development Stages</h2>
+        <p class="slide-subtitle">A clearly separated stage-by-stage engineering plan ensuring foundational verification before feature expansion.</p>
+
+        <div class="grid-4">
+          <div class="feature-card">
+            <span class="meta-label">Stage 01</span>
+            <h4 class="card-title">Project Foundation</h4>
+            <p class="card-desc">Requirements, architecture, UI/UX, and responsive design system.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 02</span>
+            <h4 class="card-title">Authentication</h4>
+            <p class="card-desc">Registration, login, and session management flows.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 03</span>
+            <h4 class="card-title">Verification System</h4>
+            <p class="card-desc">Identity, death, relationship, eligibility, and authorization decisions.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 04</span>
+            <h4 class="card-title">Memorial Profile</h4>
+            <p class="card-desc">Profile creation, mandatory reference photo, and personal info management.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 05</span>
+            <h4 class="card-title">Memory Management</h4>
+            <p class="card-desc">File uploads, private storage, memory organization, and evidence classification.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 06</span>
+            <h4 class="card-title">AI Memory Engine</h4>
+            <p class="card-desc">RAG pipeline, memory retrieval, evidence attribution, and response validation.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 07</span>
+            <h4 class="card-title">AI Conversation</h4>
+            <p class="card-desc">Text interaction, conversation history, and insufficient-evidence handling.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 08</span>
+            <h4 class="card-title">Voice Experience</h4>
+            <p class="card-desc">Speech input, voice responses, and voice permission boundaries.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 09</span>
+            <h4 class="card-title">AI Avatar Experience</h4>
+            <p class="card-desc">Visual representation, avatar interaction, and video communication where feasible.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 10</span>
+            <h4 class="card-title">Security and Testing</h4>
+            <p class="card-desc">Access control, error handling, responsive testing, and security checks.</p>
+          </div>
+          <div class="feature-card">
+            <span class="meta-label">Stage 11</span>
+            <h4 class="card-title">Demo Preparation</h4>
+            <p class="card-desc">End-to-end workflow, bug fixing, presentation readiness, and final demonstration.</p>
+          </div>
+          <div class="feature-card" style="background: rgba(99, 102, 241, 0.1); border-color: var(--accent-indigo);">
+            <span class="meta-label" style="color: #a5b4fc;">Next Milestone</span>
+            <h4 class="card-title">Stage 1 Start</h4>
+            <p class="card-desc">Commence upon client review and explicit approval of this presentation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: Demo Scope & Realistic Transparency -->
+    <section class="slide" id="slide-9">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">09 // Demonstration Scope</div>
+        <h2 class="slide-title">Demo Scope & Realistic Transparency</h2>
+        <p class="slide-subtitle">Clear distinction between planned demo capabilities, simulated integrations, and external dependencies.</p>
+
+        <div class="grid-3">
+          <div class="feature-card" style="border-top: 3px solid var(--accent-teal);">
+            <span class="tier-tag a" style="margin-bottom: 0.8rem; display: inline-block;">Planned Demo Capabilities</span>
+            <h4 class="card-title">Target Demo Experiences</h4>
+            <ul style="list-style: none; font-size: 0.88rem; color: var(--text-muted); line-height: 1.8;">
+              <li>• Polished, responsive mobile & desktop UI</li>
+              <li>• Complete navigation and user journeys</li>
+              <li>• Functional auth & profile creation workflows</li>
+              <li>• Memory upload and organization flows</li>
+              <li>• Evidence-aware AI conversation simulation</li>
+              <li>• Privacy and access-control demonstrations</li>
+            </ul>
+          </div>
+
+          <div class="feature-card" style="border-top: 3px solid var(--accent-amber);">
+            <span class="tier-tag b" style="margin-bottom: 0.8rem; display: inline-block;">Simulated Integrations</span>
+            <h4 class="card-title">Workflow Demonstrations</h4>
+            <ul style="list-style: none; font-size: 0.88rem; color: var(--text-muted); line-height: 1.8;">
+              <li>⚡ Government death registry checks</li>
+              <li>⚡ Third-party identity verification steps</li>
+              <li>⚡ Multi-stage legal eligibility audit flows</li>
+              <li>⚡ Real-time video/avatar rendering feasibility</li>
+            </ul>
+          </div>
+
+          <div class="feature-card" style="border-top: 3px solid var(--accent-indigo);">
+            <span class="tier-tag c" style="margin-bottom: 0.8rem; display: inline-block; background: rgba(99, 102, 241, 0.2); color: #c7d2fe;">External Dependencies</span>
+            <h4 class="card-title">External Service Candidates</h4>
+            <ul style="list-style: none; font-size: 0.88rem; color: var(--text-muted); line-height: 1.8;">
+              <li>⏳ Third-party LLM API availability</li>
+              <li>⏳ Compatible Speech-to-Text API</li>
+              <li>⏳ Compatible Text-to-Speech API</li>
+              <li>⏳ WebRTC streaming infrastructure</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="alert-banner warning" style="margin-top: 1.75rem;">
+          <div class="alert-icon">⚖️</div>
+          <div class="alert-content">
+            <h4>Research Integrity & Honest Representation</h4>
+            <p>Application development has not started; no feature is claimed as already operational. Memora does not invent research benchmarks, user-study findings, or security certifications.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: Privacy, Security & Safeguard Objectives -->
+    <section class="slide" id="slide-10">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">10 // Proposed Safeguards</div>
+        <h2 class="slide-title">Privacy, Security, and Safeguards</h2>
+        <p class="slide-subtitle">Proposed safeguards and design objectives. (Design and implementation objectives, not completed certifications).</p>
+
+        <div class="grid-2">
+          <div class="feature-card">
+            <div class="card-icon">🛡️</div>
+            <h3 class="card-title">Identity & Access Restrictions</h3>
+            <p class="card-desc">Backend-enforced authorization and multi-stage verification to protect against unauthorized access to memorial profiles.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🔐</div>
+            <h3 class="card-title">Private Storage & Proposed Encryption</h3>
+            <p class="card-desc">Physical separation of verification documents from conversational memory sources, with proposed encryption and secure file access.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">📜</div>
+            <h3 class="card-title">Audit Logging & Governance</h3>
+            <p class="card-desc">Proposed audit logging designed to record access events, authorization changes, and administrative actions.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🌱</div>
+            <h3 class="card-title">Psychological Safety Objectives</h3>
+            <p class="card-desc">Psychological safety is a <strong>design objective and evaluation area</strong>, exploring appropriate emotional boundaries without claiming automated clinical distress detection.</p>
+          </div>
+        </div>
+
+        <div class="alert-banner info" style="margin-top: 1.5rem;">
+          <div class="alert-icon">🔒</div>
+          <div class="alert-content">
+            <h4>No Claim of Absolute Security</h4>
+            <p>These safeguards represent foundational engineering objectives. Memora does not claim completed production security certifications or absolute, invulnerable security.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: Multimodal Experience (Voice & Avatar) -->
+    <section class="slide" id="slide-11">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">11 // Multimodal Features</div>
+        <h2 class="slide-title">Voice & AI Avatar Experience</h2>
+        <p class="slide-subtitle">Extending memory interaction through speech recognition, voice generation, and visual representation.</p>
+
+        <div class="grid-2">
+          <div class="feature-card">
+            <div class="card-icon">🎙️</div>
+            <h3 class="card-title">Voice Interaction Pipeline</h3>
+            <ul style="list-style: none; font-size: 0.9rem; color: var(--text-muted); line-height: 1.8;">
+              <li><strong>• Speech-to-Text:</strong> User asks questions via speech input.</li>
+              <li><strong>• AI Response Generation:</strong> Grounded response formulated via RAG with source checks.</li>
+              <li><strong>• Text-to-Speech:</strong> Response spoken through synthesized audio.</li>
+              <li><strong>• Authorized Voice Representation:</strong> Subject to available audio recordings and applicable permissions.</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon">👤</div>
+            <h3 class="card-title">AI Avatar & Video Experience</h3>
+            <ul style="list-style: none; font-size: 0.9rem; color: var(--text-muted); line-height: 1.8;">
+              <li><strong>• Reference-Photo-Based:</strong> Visual likeness derived from the mandatory reference photo.</li>
+              <li><strong>• Facial Animation:</strong> Potential facial movement and lip synchronization.</li>
+              <li><strong>• Real-Time Interface:</strong> Communication interface using compatible web streaming technologies.</li>
+              <li><strong>• Simulated Demo Scope:</strong> Visual fidelity demonstrated within feasibility limits.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 13: Research Limitations (Manuscript Alignment) -->
+    <section class="slide" id="slide-12">
+      <div class="slide-wrapper">
+        <div class="section-eyebrow">12 // Research Alignment</div>
+        <h2 class="slide-title">Research Limitations & Boundary Conditions</h2>
+        <p class="slide-subtitle">Explicit boundaries documented in the original Memora research manuscript to preserve ethical integrity.</p>
+
+        <div class="grid-3">
+          <div class="feature-card">
+            <div class="card-icon">⚖️</div>
+            <h3 class="card-title">Jurisdictional Variability</h3>
+            <p class="card-desc">Verification requirements, estate laws, and death record access vary significantly across state and international jurisdictions.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🤖</div>
+            <h3 class="card-title">RAG Hallucination Limits</h3>
+            <p class="card-desc">RAG and output validation significantly reduce unsupported claims, but cannot guarantee that hallucinations are completely eliminated.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🎙️</div>
+            <h3 class="card-title">Voice Similarity ≠ Identity</h3>
+            <p class="card-desc">Acoustic voice synthesis demonstrates vocal likeness, but does not prove personal identity, authority, or personhood.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">👤</div>
+            <h3 class="card-title">Avatar Realism ≠ Consciousness</h3>
+            <p class="card-desc">Visual photorealism and lip synchronization do not establish human consciousness, subjective awareness, or sentience.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🧠</div>
+            <h3 class="card-title">Long-Term Psychological Effects</h3>
+            <p class="card-desc">The long-term psychological impacts of interacting with digital legacy AI representations have not yet been clinically established.</p>
+          </div>
+          <div class="feature-card">
+            <div class="card-icon">🛡️</div>
+            <h3 class="card-title">Security & Legal Compliance</h3>
+            <p class="card-desc">Formal legal compliance assessments are pending, and no system can offer an absolute guarantee of complete security or privacy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 14: Summary & Next Steps -->
+    <section class="slide" id="slide-13">
+      <div class="slide-wrapper hero-container" style="padding-top: 2rem;">
+        <div class="section-eyebrow">13 // Project Summary & Review</div>
+        <h2 class="hero-title" style="font-size: 3rem;">Ready for Client Review</h2>
+        <p class="hero-tagline" style="font-size: 1.15rem; max-width: 800px;">The client presentation and technical architecture are fully aligned with the research manuscript and ready for approval.</p>
+
+        <div class="grid-3" style="width: 100%; text-align: left; margin-bottom: 2rem;">
+          <div class="feature-card">
+            <span class="tier-tag a">Deliverable 1</span>
+            <h4 class="card-title" style="margin-top: 0.5rem;">Interactive Presentation</h4>
+            <p class="card-desc">14 aligned slides in <code>index.html</code> with responsive mobile and desktop navigation.</p>
+          </div>
+          <div class="feature-card">
+            <span class="tier-tag b">Deliverable 2</span>
+            <h4 class="card-title" style="margin-top: 0.5rem;">Architecture Document</h4>
+            <p class="card-desc">Full technical markdown specification in <code>PROJECT_PRESENTATION.md</code>.</p>
+          </div>
+          <div class="feature-card">
+            <span class="tier-tag c">Review Gate</span>
+            <h4 class="card-title" style="margin-top: 0.5rem;">Awaiting Approval</h4>
+            <p class="card-desc">Application development will strictly begin only after explicit client review and sign-off.</p>
+          </div>
+        </div>
+
+        <button class="nav-btn primary" onclick="goToSlide(0)" style="padding: 0.75rem 2rem; font-size: 1rem; border-radius: 10px;">
+          Restart Presentation ↺
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Dock -->
+  <footer class="presentation-footer">
+    <div class="client-label">MEMORA © 2026 • AI-Powered Legacy Interaction</div>
+
+    <div class="quick-jump-pills" id="jumpPills">
+      <!-- Generated by JavaScript -->
+    </div>
+
+    <div class="keyboard-hint">Use <strong>←</strong> / <strong>→</strong> or click to navigate</div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+
+    const slideTitles = [
+      "Title", "Identity", "Problem", "User Journey", "Features",
+      "Evidence", "Ethics & Access", "Tech Stack", "Roadmap",
+      "Demo Scope", "Safeguards", "Multimodal", "Limitations", "Summary"
+    ];
+
+    const slideIndicator = document.getElementById('slideIndicator');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const jumpPillsContainer = document.getElementById('jumpPills');
+
+    slideTitles.forEach((title, index) => {
+      const btn = document.createElement('button');
+      btn.className = `jump-pill ${index === 0 ? 'active' : ''}`;
+      btn.textContent = `${index + 1}. ${title}`;
+      btn.onclick = () => goToSlide(index);
+      jumpPillsContainer.appendChild(btn);
+    });
+
+    function updatePresentationUI() {
+      slides.forEach((slide, idx) => {
+        if (idx === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      const numFormatted = String(currentSlide + 1).padStart(2, '0');
+      const totalFormatted = String(totalSlides).padStart(2, '0');
+      slideIndicator.textContent = `Slide ${numFormatted} / ${totalFormatted}`;
+
+      prevBtn.disabled = currentSlide === 0;
+      prevBtn.style.opacity = currentSlide === 0 ? '0.4' : '1';
+      prevBtn.style.cursor = currentSlide === 0 ? 'not-allowed' : 'pointer';
+
+      if (currentSlide === totalSlides - 1) {
+        nextBtn.innerHTML = `Restart <span>↺</span>`;
+      } else {
+        nextBtn.innerHTML = `Next <span>→</span>`;
+      }
+
+      const pills = jumpPillsContainer.querySelectorAll('.jump-pill');
+      pills.forEach((pill, idx) => {
+        if (idx === currentSlide) {
+          pill.classList.add('active');
+          pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+
+      slides[currentSlide].scrollTop = 0;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+      } else {
+        currentSlide = 0;
+      }
+      updatePresentationUI();
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updatePresentationUI();
+      }
+    }
+
+    function goToSlide(index) {
+      if (index >= 0 && index < totalSlides) {
+        currentSlide = index;
+        updatePresentationUI();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        goToSlide(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        goToSlide(totalSlides - 1);
+      }
+    });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleGesture();
+    }, false);
+
+    function handleGesture() {
+      if (touchEndX < touchStartX - 60) {
+        nextSlide();
+      }
+      if (touchEndX > touchStartX + 60) {
+        prevSlide();
+      }
+    }
+
+    updatePresentationUI();
+  </script>
+</body>
+</html>
